@@ -20,9 +20,13 @@ public class BankEntry {
 
     private Long id;
 
-    @Column(name = "account_number")
+    @Column(name = "account_number",unique = true,nullable = false)
     private String accountNumber;
+
+    @Column(nullable = false)
     private double balance;
 
+  @Column(name= "account_type", nullable = false)
+private String accountType;
 
 }
