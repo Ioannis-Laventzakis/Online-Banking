@@ -94,4 +94,24 @@ public class BankingServiceImpl implements BankingService {
         withdrawMoney(fromAccount, amount);
         depositMoney(toAccount, amount);
     }
+
+    @Override
+    public Account openAccount(String accountType, double initialDeposit) {
+        return null;
+    }
+
+    @Override
+    public void deposit(String accountNumber, double amount) {
+
+    }
+
+    @Override
+    public void withdraw(String accountNumber, double amount) {
+
+    }
+
+    @Override
+    public void transfer(String fromAccount, String toAccount, double amount) {
+
+    }
 }
