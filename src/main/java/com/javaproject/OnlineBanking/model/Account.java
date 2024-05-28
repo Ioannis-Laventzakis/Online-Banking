@@ -12,7 +12,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 @Table(name = "bank_entries")
 @Entity
-public class BankEntry {
+public class Account {
 
 
     @Id

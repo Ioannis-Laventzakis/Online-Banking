@@ -1,7 +1,7 @@
 package com.javaproject.OnlineBanking.controller;
 
-import com.javaproject.OnlineBanking.model.BankEntry;
-import com.javaproject.OnlineBanking.service.BankService;
+import com.javaproject.OnlineBanking.model.Account;
+import com.javaproject.OnlineBanking.service.BankingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/account")
-public class BankController {
+public class BankingController {
 
     @Autowired
-    private BankService bankService;
+    private BankingService bankService;
 
     @GetMapping("/new")
     public String showNewAccountForm() {
@@ -24,7 +24,7 @@ public class BankController {
 
     @PostMapping("/new")
     public String openAccount(@RequestParam String accountType, @RequestParam double initialDeposit, Model model) {
-        BankEntry account = bankService.openAccount(accountType, initialDeposit);
+        Account account = bankService.openAccount(accountType, initialDeposit);
         model.addAttribute("account", account);
         return "account-success";
     }
