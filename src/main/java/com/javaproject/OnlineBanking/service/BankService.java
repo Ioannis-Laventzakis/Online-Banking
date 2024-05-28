@@ -12,7 +12,8 @@ public class BankService {
 
     @Autowired
     private BankRepository bankRepository;
-
+     @Override
+     @Modifying
     @Transactional
     public BankEntry openAccount(String accountType, double initialBalance) {
         BankEntry bankEntry = new BankEntry();
@@ -20,7 +21,7 @@ public class BankService {
         bankEntry.setBalance(initialBalance);
         return bankRepository.save(bankEntry);
     }
-
+     Override
     @Transactional
     @Modifying
     public void deposit(String accountNumber, double amount) {
@@ -28,7 +29,7 @@ public class BankService {
         bankEntry.setBalance(bankEntry.getBalance() + amount);
         bankRepository.save(bankEntry);
     }
-
+     @Override
     @Transactional
     @Modifying
     public void withdraw(String accountNumber, double amount) throws Exception{
@@ -39,8 +40,9 @@ public class BankService {
         bankEntry.setBalance(bankEntry.getBalance() - amount);
         bankRepository.save(bankEntry);
     }
-
+    @Override
     @Transactional
+    @Modifying
     public void transfer(String fromAccountNumber, String toAccountNumber, double amount) throws Exception {
         withdraw(fromAccountNumber, amount);
         deposit(toAccountNumber, amount);
@@ -49,4 +51,5 @@ public class BankService {
     private String generateAccountNumber() {
         return "ACC" + System.currentTimeMillis();
     }
+
 }
