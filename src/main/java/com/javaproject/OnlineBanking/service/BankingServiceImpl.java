@@ -28,7 +28,7 @@ public class BankingServiceImpl implements BankingService {
      */
     @Override
     @org.springframework.transaction.annotation.Transactional
-    @Modifying
+    @Modifying // This annotation is used to indicate that the method modifies the database. It is used in conjunction with @Transactional.
     public void openNewAccount(String accountType, double initialDeposit) {
 
         Account account = new Account();
