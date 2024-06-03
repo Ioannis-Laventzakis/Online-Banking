@@ -5,17 +5,22 @@ import com.javaproject.OnlineBanking.service.BankingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.validation.constraints.Min;
 
 /**
  * Controller for handling banking operations.
  */
 @Controller
 @RequestMapping("/account")
+@Validated
 public class BankingController {
+
+    private static final Logger logger = LoggerFactory.getLogger(BankingController.class);
 
     @Autowired
     private BankingService bankingService;
@@ -25,103 +30,89 @@ public class BankingController {
         return "home";
     }
 
-    /**
-     * Displays the form for creating a new account.
-     * @return the name of the view to be rendered
-     */
     @GetMapping("/new")
     public String showNewAccountForm() {
         return "new-account";
     }
 
-    /**
-     * Handles the creation of a new account.
-     * @param accountType the type of the account to be created
-     * @param initialDeposit the initial deposit for the account
-     * @param model the model to add attributes to for the view
-     * @return the name of the view to be rendered
-     */
     @PostMapping("/new")
-    public String openAccount(@RequestParam String accountType, @RequestParam double initialDeposit, Model model) {
-        Account account = bankingService.openAccount(accountType, initialDeposit);
-        model.addAttribute("account", account);
-        return "account-success";
+    public String openAccount(@RequestParam String accountType,
+                              @RequestParam @Min(0) double initialDeposit,
+                              Model model) {
+        logger.info("Opening new account of type: {}", accountType);
+        try {
+            Account account = bankingService.openAccount(accountType, initialDeposit);
+            model.addAttribute("account", account);
+            logger.info("Account created successfully: {}", account);
+            return "account-success";
+        } catch (Exception e) {
+            model.addAttribute("error", e.getMessage());
+            logger.error("Error creating account: {}", e.getMessage());
+            return "account-failure";
+        }
     }
 
-    /**
-     * Displays the form for making a deposit.
-     * @return the name of the view to be rendered
-     */
     @GetMapping("/transactions/deposit")
     public String showDepositForm() {
         return "deposit";
     }
 
-    /**
-     * Handles a deposit transaction.
-     * @param accountNumber the account number to deposit to
-     * @param amount the amount to deposit
-     * @param model the model to add attributes to for the view
-     * @return the name of the view to be rendered
-     */
     @PostMapping("/transactions/deposit")
-    public String deposit(@RequestParam String accountNumber, @RequestParam double amount, Model model) {
-        bankingService.deposit(accountNumber, amount);
-        return "transaction-success";
+    public String deposit(@RequestParam String accountNumber,
+                          @RequestParam @Min(0) double amount,
+                          Model model) {
+        logger.info("Depositing {} to account {}", amount, accountNumber);
+        try {
+            bankingService.deposit(accountNumber, amount);
+            logger.info("Deposit successful");
+            return "transaction-success";
+        } catch (Exception e) {
+            model.addAttribute("error", e.getMessage());
+            logger.error("Error during deposit: {}", e.getMessage());
+            return "transaction-failure";
+        }
     }
 
-    /**
-     * Displays the form for making a withdrawal.
-     * @return the name of the view to be rendered
-     */
     @GetMapping("/transactions/withdraw")
     public String showWithdrawForm() {
         return "withdraw";
     }
 
-    /**
-     * Handles a withdrawal transaction.
-     * @param accountNumber the account number to withdraw from
-     * @param amount the amount to withdraw
-     * @param model the model to add attributes to for the view
-     * @return the name of the view to be rendered
-     */
     @PostMapping("/transactions/withdraw")
-    public String withdraw(@RequestParam String accountNumber, @RequestParam double amount, Model model) {
+    public String withdraw(@RequestParam String accountNumber,
+                           @RequestParam @Min(0) double amount,
+                           Model model) {
+        logger.info("Withdrawing {} from account {}", amount, accountNumber);
         try {
             bankingService.withdraw(accountNumber, amount);
+            logger.info("Withdrawal successful");
+            return "transaction-success";
         } catch (Exception e) {
             model.addAttribute("error", e.getMessage());
+            logger.error("Error during withdrawal: {}", e.getMessage());
             return "transaction-failure";
         }
-        return "transaction-success";
     }
 
-    /**
-     * Displays the form for making a transfer.
-     * @return the name of the view to be rendered
-     */
     @GetMapping("/transactions/transfer")
     public String showTransferForm() {
         return "transfer";
     }
 
-    /**
-     * Handles a transfer transaction.
-     * @param fromAccount the account number to transfer from
-     * @param toAccount the account number to transfer to
-     * @param amount the amount to transfer
-     * @param model the model to add attributes to for the view
-     * @return the name of the view to be rendered
-     */
     @PostMapping("/transactions/transfer")
-    public String transfer(@RequestParam String fromAccount, @RequestParam String toAccount, @RequestParam double amount, Model model) {
+    public String transfer(@RequestParam String fromAccount,
+                           @RequestParam String toAccount,
+                           @RequestParam @Min(0) double amount,
+                           Model model) {
+        logger.info("Transferring {} from account {} to account {}", amount, fromAccount, toAccount);
         try {
             bankingService.transfer(fromAccount, toAccount, amount);
+            logger.info("Transfer successful");
+            return "transaction-success";
         } catch (Exception e) {
             model.addAttribute("error", e.getMessage());
+            logger.error("Error during transfer: {}", e.getMessage());
             return "transaction-failure";
         }
-        return "transaction-success";
     }
 }
