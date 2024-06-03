@@ -48,7 +48,7 @@ It defines the project structure, dependencies, build plugins, and other project
    <artifactId>spring-boot-starter-web</artifactId>
   </dependency>
   <!--
-  PostgreSQL JDBC driver for connecting to PostgreSQL databases.
+  PostgresSQL JDBC driver for connecting to PostgresSQL databases.
   -->
   <dependency>
    <groupId>org.postgresql</groupId>
@@ -56,7 +56,7 @@ It defines the project structure, dependencies, build plugins, and other project
    <scope>runtime</scope>
   </dependency>
   <!--
-  Lombok library for reducing boilerplate code.
+  Logbook's library for reducing boilerplate code.
   -->
   <dependency>
    <groupId>org.projectlombok</groupId>
