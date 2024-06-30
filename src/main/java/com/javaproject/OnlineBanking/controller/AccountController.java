@@ -18,9 +18,9 @@ import javax.validation.constraints.Min;
 @Controller
 @RequestMapping("/account")
 @Validated
-public class BankingController {
+public class AccountController {
 
-    private static final Logger logger = LoggerFactory.getLogger(BankingController.class);
+    private static final Logger logger = LoggerFactory.getLogger(AccountController.class);
 
     @Autowired
     private BankingService bankingService;

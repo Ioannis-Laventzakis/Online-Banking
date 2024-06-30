@@ -2,7 +2,6 @@ package com.javaproject.OnlineBanking.service;
 
 import com.javaproject.OnlineBanking.model.Account;
 import com.javaproject.OnlineBanking.repository.AccountRepository;
-import com.javaproject.OnlineBanking.unit.AccountNumberGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
