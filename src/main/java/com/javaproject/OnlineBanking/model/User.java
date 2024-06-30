@@ -3,19 +3,76 @@ package com.javaproject.OnlineBanking.model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "users")
 public class User {
 
-        @Id
-        @GeneratedValue(strategy = GenerationType.SEQUENCE)
-        private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long id;
 
-        public void setId(Long id) {
-            this.id = id;
-        }
+    @Column(unique = true, nullable = false)
+    private String username;
 
-        public Long getId() {
-            return id;
-        }
+    @Column(nullable = false)
+    private String password;
+
+
+    @OneToMany(mappedBy = "user", cascade= CascadeType.ALL, orphanRemoval = true)
+    private List<Account> accounts;
+
+    public List<Account> getAccounts() {
+        return accounts;
+    }
+
+    public void setAccounts(List<Account> accounts) {
+        this.accounts = accounts;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public User() {
+    }
+
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
+    public User(Long id, String username, String password) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+    }
+
+    public User(String username, String password,
+                List<Account> accounts) {
+        this.username = username;
+        this.password = password;
+        this.accounts = accounts;
+    }
 }

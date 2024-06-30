@@ -6,11 +6,9 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@EntityScan("com.javaproject.OnlineBanking.model")
-@ComponentScan(basePackages = {"com.javaproject.OnlineBanking.controller", "com.javaproject.OnlineBanking.service", "com.javaproject.OnlineBanking.repository"})
-public class OnlineBankingApplication {
+public class OnlineBankingSystemApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(OnlineBankingApplication.class, args);
+        SpringApplication.run(OnlineBankingSystemApplication.class, args);
     }
 }

@@ -1,55 +1,50 @@
 package com.javaproject.OnlineBanking.controller;
 
-import com.javaproject.OnlineBanking.model.Account;
+
 import com.javaproject.OnlineBanking.service.BankingService;
+import com.javaproject.OnlineBanking.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.validation.constraints.Min;
-
-/**
- * Controller for handling banking operations.
- */
 @Controller
-@RequestMapping("/account")
-@Validated
 public class AccountController {
-
-    private static final Logger logger = LoggerFactory.getLogger(AccountController.class);
-
     @Autowired
     private BankingService bankingService;
 
-    @GetMapping("/home")
+    @Autowired
+    private UserServiceImpl userService;
+
+    @GetMapping("/")
     public String showHomePage() {
+
         return "home";
     }
 
-    @GetMapping("/new")
-    public String showNewAccountForm() {
-        return "new-account";
+    @GetMapping("/openAccount")
+    public String showOpenAccountForm() {
+
+        return "openAccount";
     }
 
-    @PostMapping("/new")
-    public String openAccount(@RequestParam String accountType,
-                              @RequestParam @Min(0) double initialDeposit,
-                              Model model) {
-        logger.info("Opening new account of type: {}", accountType);
-        try {
-            Account account = bankingService.openAccount(accountType, initialDeposit);
-            model.addAttribute("account", account);
-            logger.info("Account created successfully: {}", account);
-            return "account-success";
-        } catch (Exception e) {
-            model.addAttribute("error", e.getMessage());
-            logger.error("Error creating account: {}", e.getMessage());
-            return "account-failure";
-        }
+    @PostMapping("/openAccount")
+    public String openNewAccount(
+            @RequestParam String accountType,
+            @RequestParam double initialDeposit,
+            @AuthenticationPrincipal UserDetails userDetails,
+            Model model) {
+        User user = userService.findByUsername(userDetails.getUsername());
+        bankingService.openNewAccount(accountType, initialDeposit, user.getId());
+        model.addAttribute("message", "Account successfully created!");
+        return "redirect:/accountSuccess";
+    }
+
+    @GetMapping("/accountSuccess")
+    public String showAccountSuccess() {
+        return "accountSuccess";
     }
 
     @GetMapping("/transactions/deposit")
@@ -58,19 +53,11 @@ public class AccountController {
     }
 
     @PostMapping("/transactions/deposit")
-    public String deposit(@RequestParam String accountNumber,
-                          @RequestParam @Min(0) double amount,
-                          Model model) {
-        logger.info("Depositing {} to account {}", amount, accountNumber);
-        try {
-            bankingService.deposit(accountNumber, amount);
-            logger.info("Deposit successful");
-            return "transaction-success";
-        } catch (Exception e) {
-            model.addAttribute("error", e.getMessage());
-            logger.error("Error during deposit: {}", e.getMessage());
-            return "transaction-failure";
-        }
+    public String depositMoney(
+            @RequestParam String accountNumber,
+            @RequestParam double amount) {
+        bankingService.depositMoney(accountNumber, amount);
+        return "redirect:/";
     }
 
     @GetMapping("/transactions/withdraw")
@@ -79,19 +66,9 @@ public class AccountController {
     }
 
     @PostMapping("/transactions/withdraw")
-    public String withdraw(@RequestParam String accountNumber,
-                           @RequestParam @Min(0) double amount,
-                           Model model) {
-        logger.info("Withdrawing {} from account {}", amount, accountNumber);
-        try {
-            bankingService.withdraw(accountNumber, amount);
-            logger.info("Withdrawal successful");
-            return "transaction-success";
-        } catch (Exception e) {
-            model.addAttribute("error", e.getMessage());
-            logger.error("Error during withdrawal: {}", e.getMessage());
-            return "transaction-failure";
-        }
+    public String withdrawMoney(@RequestParam String accountNumber, @RequestParam double amount) {
+        bankingService.withdrawMoney(accountNumber, amount);
+        return "redirect:/";
     }
 
     @GetMapping("/transactions/transfer")
@@ -100,19 +77,8 @@ public class AccountController {
     }
 
     @PostMapping("/transactions/transfer")
-    public String transfer(@RequestParam String fromAccount,
-                           @RequestParam String toAccount,
-                           @RequestParam @Min(0) double amount,
-                           Model model) {
-        logger.info("Transferring {} from account {} to account {}", amount, fromAccount, toAccount);
-        try {
-            bankingService.transfer(fromAccount, toAccount, amount);
-            logger.info("Transfer successful");
-            return "transaction-success";
-        } catch (Exception e) {
-            model.addAttribute("error", e.getMessage());
-            logger.error("Error during transfer: {}", e.getMessage());
-            return "transaction-failure";
-        }
+    public String transferMoney(@RequestParam String fromAccount, @RequestParam String toAccount, @RequestParam double amount) {
+        bankingService.transferMoney(fromAccount, toAccount, amount);
+        return "redirect:/";
     }
 }
