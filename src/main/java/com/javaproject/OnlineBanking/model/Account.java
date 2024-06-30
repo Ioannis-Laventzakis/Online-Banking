@@ -1,11 +1,10 @@
 package com.javaproject.OnlineBanking.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+
 
 @Entity
-@Table(name = "accounts")
+@Table(name = "bank_entries")
 public class Account {
 
     @Id
@@ -19,7 +18,7 @@ public class Account {
     private double balance;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "userId", nullable = false)
     private User user;
 
     public User getUser() {
@@ -81,3 +80,4 @@ public class Account {
         this.balance = balance;
         this.user = user;
     }
+}
