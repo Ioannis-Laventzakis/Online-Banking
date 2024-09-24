@@ -4,36 +4,20 @@ import com.javaproject.OnlineBanking.model.Account;
 import com.javaproject.OnlineBanking.model.User;
 import com.javaproject.OnlineBanking.repository.AccountRepository;
 import com.javaproject.OnlineBanking.repository.UserRepository;
+import com.javaproject.OnlineBanking.unit.AccountNumberGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
- * Service class for handling banking operations.
- * Annotated with @Service to indicate that it's a Spring service component.
- */
 @Service
 public class BankingServiceImpl implements BankingService {
-
-    /**
-     * The AccountRepository instance.
-     */
     @Autowired
     private AccountRepository accountRepository;
 
-    /**
-     * The UserRepository instance.
-     */
     @Autowired
     private UserRepository userRepository;
 
-    /**
-     * Opens a new account for a user.
-     * @param accountType the type of the account.
-     * @param initialDeposit the initial deposit for the account.
-     * @param userId the id of the user.
-     */
     @Override
     @Transactional
     @Modifying
@@ -47,11 +31,6 @@ public class BankingServiceImpl implements BankingService {
         accountRepository.save(account);
     }
 
-    /**
-     * Deposits money into an account.
-     * @param accountNumber the account number.
-     * @param amount the amount to deposit.
-     */
     @Override
     @Transactional
     @Modifying
@@ -65,11 +44,6 @@ public class BankingServiceImpl implements BankingService {
         }
     }
 
-    /**
-     * Withdraws money from an account.
-     * @param accountNumber the account number.
-     * @param amount the amount to withdraw.
-     */
     @Override
     @Transactional
     @Modifying
@@ -83,12 +57,6 @@ public class BankingServiceImpl implements BankingService {
         }
     }
 
-    /**
-     * Transfers money from one account to another.
-     * @param fromAccount the account to transfer from.
-     * @param toAccount the account to transfer to.
-     * @param amount the amount to transfer.
-     */
     @Override
     @Transactional
     @Modifying
