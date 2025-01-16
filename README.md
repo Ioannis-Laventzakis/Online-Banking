@@ -1,7 +1,5 @@
 # **Online Banking System**
 
-# **Online Banking System**
-
 ## **Overview**
 The **Online Banking System** is a comprehensive web application designed to simulate real-world banking functionalities. It allows users to manage their accounts, perform financial transactions, and view transaction histories securely. The application includes both user-facing and administrative functionalities.
 
@@ -57,7 +55,6 @@ Online-Banking/
 ├── pom.xml
 ├── README.md
 ```
-# **Online Banking System**
 
 ## **Features**
 
