@@ -2,9 +2,7 @@ package com.javaproject.OnlineBanking.model;
 
 import jakarta.persistence.*;
 
-/**
- * Represents a bank account in the online banking system.
- */
+
 @Entity
 @Table(name = "accounts")
 public class Account {
