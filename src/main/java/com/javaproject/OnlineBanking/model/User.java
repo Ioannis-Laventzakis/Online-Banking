@@ -3,10 +3,7 @@ package com.javaproject.OnlineBanking.model;
 import jakarta.persistence.*;
 import java.util.List;
 
-/**
- * Entity class for the User.
- * Annotated with @Entity and @Table to indicate that it's a JPA entity and to specify the table name in the database.
- */
+
 @Entity
 @Table(name = "users")
 public class User {
