@@ -31,7 +31,7 @@ public class AccountController {
 
         return "openAccount";
     }
-
+     // Add a new POST mapping for opening a new account
     @PostMapping("/openAccount")
     public String openNewAccount(
             @RequestParam String accountType,
