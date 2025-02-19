@@ -4,7 +4,7 @@ import com.javaproject.OnlineBanking.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-
+// This interface extends JpaRepository and is annotated with @Repository
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
     User findUserByUsername(String username);
