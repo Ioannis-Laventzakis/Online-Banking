@@ -25,7 +25,7 @@ public class AccountController {
 
         return "home";
     }
-
+//   @GetMapping("/signup")
     @GetMapping("/openAccount")
     public String showOpenAccountForm() {
 
