@@ -4,6 +4,7 @@ import com.javaproject.OnlineBanking.model.Account;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+// This interface extends JpaRepository and is annotated with @Repository
 @Repository
 public interface AccountRepository extends JpaRepository<Account, Long> {
     Account findByAccountNumber(String accountNumber);

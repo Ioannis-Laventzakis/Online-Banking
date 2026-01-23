@@ -10,14 +10,26 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * Implementation of the BankingService interface.
+ * Provides methods for managing bank accounts and transactions.
+ */
 @Service
 public class BankingServiceImpl implements BankingService {
+
     @Autowired
     private AccountRepository accountRepository;
 
     @Autowired
     private UserRepository userRepository;
 
+    /**
+     * Opens a new account for a user with an initial deposit.
+     *
+     * @param accountType the type of the account
+     * @param initialDeposit the initial deposit amount
+     * @param userId the ID of the user
+     */
     @Override
     @Transactional
     @Modifying
@@ -31,6 +43,12 @@ public class BankingServiceImpl implements BankingService {
         accountRepository.save(account);
     }
 
+    /**
+     * Deposits money into an account.
+     *
+     * @param accountNumber the account number
+     * @param amount the amount to deposit
+     */
     @Override
     @Transactional
     @Modifying
@@ -44,6 +62,12 @@ public class BankingServiceImpl implements BankingService {
         }
     }
 
+    /**
+     * Withdraws money from an account.
+     *
+     * @param accountNumber the account number
+     * @param amount the amount to withdraw
+     */
     @Override
     @Transactional
     @Modifying
@@ -57,6 +81,13 @@ public class BankingServiceImpl implements BankingService {
         }
     }
 
+    /**
+     * Transfers money from one account to another.
+     *
+     * @param fromAccount the account number to transfer from
+     * @param toAccount the account number to transfer to
+     * @param amount the amount to transfer
+     */
     @Override
     @Transactional
     @Modifying

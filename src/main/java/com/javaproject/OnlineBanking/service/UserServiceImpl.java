@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserDetailsService {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
-
+//   public UserServiceImpl(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
 
     public void saveUser(String username, String password) {
         User user = new User(username, passwordEncoder.encode(password));
